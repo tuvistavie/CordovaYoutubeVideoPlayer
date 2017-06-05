@@ -13,16 +13,16 @@ public class YoutubeVideoPlayer extends CordovaPlugin {
 
 	@Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-		
+
 		if(action.equals("openVideo")) {
 			String url = args.getString(0);
         	this.openVideo(url);
         	return true;
-        }        
-		
+        }
+
 		return false;
 	}
-	
+
 	private void openVideo(String videoId) {
 
 		Intent intent = createYoutubeIntent(videoId);
@@ -30,10 +30,10 @@ public class YoutubeVideoPlayer extends CordovaPlugin {
 	}
 
 	private Intent createYoutubeIntent(String videoId) {
-
 		if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videoId), cordova.getActivity(), YouTubeActivity.class);
 			intent.putExtra("videoId", videoId);
+			intent.putExtra("apiKey", preferences.getString("YouTubeDataApiKey", ""));
 			return intent;
 		}
 
